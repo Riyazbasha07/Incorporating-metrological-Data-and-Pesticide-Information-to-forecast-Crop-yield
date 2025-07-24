@@ -1,0 +1,191 @@
+{% extends 'home.html' %}
+
+{% block navbar %}
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ">
+      <li class="nav-item">
+        <a style="color: white;" class="nav-link active" href="{{url_for('home')}}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a style="color: white;" class="nav-link" href="{{url_for('algorithm')}}"> Algorithm</a>
+      </li>
+      <li class="nav-item">
+        <a style="color: yellow;" class="nav-link" href="{{url_for('prediction')}}"> Prediction</a>
+      </li>
+      <li class="nav-item">
+        <a style="color: white;" class="nav-link" href="{{url_for('index')}}">Logout</a>
+      </li>
+    </ul>
+  </div>
+{% endblock %}
+
+
+{% block content %}
+
+  <section style="margin-top: -100px;" class="contact_section layout_padding">
+    <div class="container">
+          {% if prediction %}
+          <center>
+            <div style="background-color: rgba(0, 0, 0, 0.473); width: 500px; padding: 20px;">
+              <h2 style="color: yellow; font-family: 'Times New Roman', Times, serif;">{{prediction}}</h2>
+
+              <div style="text-align: left;">
+                <ul style="color: aquamarine;">Recommendations:
+                  <li>Soil_Moisture ({{Soil_Moisture}}) - {{recommendation_1}}</li>
+                  <li>Pest Infestation Severity ({{Pest_Infestation_Severity}}) - {{recommendation_2}}</li>
+                </ul>
+              </div>
+              
+              <p style="color: rgb(26, 129, 189);">{{estimated_income}}</p>
+            </div>
+          </center>
+            
+          {% endif %}
+
+      <div class="row">
+        <div style="margin-left: 0px; margin-top: 20px;" class="col-12">
+          <form action="{{url_for('prediction')}}" method="post">
+
+            <div class="row">
+              <div class="col">
+                <div>
+                  <center>
+                    {% if data %}
+                      {% for key in data.keys() %}
+                        <select name="{{ key }}" class="form-control" required>
+                            <option selected disabled>Choose {{ key }}</option>
+                            {% for value in data[key] %}
+                                <option value="{{ value[1] }}">{{ value[0] }}</option>
+                            {% endfor %}
+                        </select><br>
+                      {% endfor %}
+                    {% endif %}
+                  </center>
+                </div>
+  
+                <div>
+                  <center>
+                    <select name="Disease_Presence" class="form-control" required>
+                      <option value="">Crop Disease Presence?</option>
+                      <option value="1">Yes</option>
+                      <option value="0">No</option>
+                    </select><br>
+                  </center>
+                </div>
+
+                <div>
+                  <center>
+                    <select name="Flood_Occurrence" class="form-control" required>
+                      <option value="">chance for flood?</option>
+                      <option value="1">Yes</option>
+                      <option value="0">No</option>
+                    </select><br>
+                  </center>
+                </div>
+    
+                <div>
+                  <center>
+                    <select name="Temperature_Extremes" class="form-control" required>
+                      <option value="">Temperature is heavy?</option>
+                      <option value="1">Yes</option>
+                      <option value="0">No</option>
+                    </select><br>
+                  </center>
+                </div>
+
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Temperature" step="0.000000000001" placeholder="Enter Temperature" style="color: black;" required/>
+                  </center>
+                </div>
+                
+              </div>
+              
+
+              <div class="col">
+
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Rainfall" step="0.000000000001" placeholder="Enter Rainfall" style="color: black;" required/>
+                  </center>
+                </div>
+                
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Pesticide_Use" step="0.000000000001" placeholder="Enter Pesticide_Use" style="color: black;" required/>
+                  </center>
+                </div>
+                
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Soil_Moisture" step="0.000000000001" placeholder="Enter Soil_Moisture" style="color: black;" required/>
+                  </center>
+                </div>
+                
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Humidity" step="0.000000000001" placeholder="Enter Humidity" style="color: black;" required/>
+                  </center>
+                </div>
+
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Solar_Radiation" step="0.000000000001" placeholder="Enter Solar_Radiation" style="color: black;" required/>
+                  </center>
+                </div>
+
+                <div>
+                  <center>
+                    <button style="border-radius: 5px; font-family: 'Times New Roman', Times, serif; margin-top: 50px;" type="submit">
+                      Predict!
+                    </button>
+                  </center>
+                </div>
+              </div>
+
+              <div class="col">
+
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Wind_Speed" step="0.000000000001" placeholder="Enter Wind_Speed" style="color: black;" required/>
+                  </center>
+                </div>
+
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Fertilizer_Residuals" step="0.000000000001" placeholder="Enter Fertilizer_Residuals" style="color: black;" required/>
+                  </center>
+                </div>
+                
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Pest_Infestation_Severity" step="0.000000000001" placeholder="Enter Pest_Infestation_Severity" style="color: black;" required/>
+                  </center>
+                </div>
+                
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Pesticide_Effectiveness" step="0.000000000001" placeholder="Enter Pesticide_Effectiveness" style="color: black;" required/>
+                  </center>
+                </div>
+                
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Monsoon_Delay" step="0.000000000001" placeholder="Enter Monsoon_Delay" style="color: black;" required/>
+                  </center>
+                </div>
+    
+                <div>
+                  <center>
+                    <input class="form-control" type="number" name="Year" step="0.000000000001" placeholder="Enter Year" style="color: black;" required/>
+                  </center>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
